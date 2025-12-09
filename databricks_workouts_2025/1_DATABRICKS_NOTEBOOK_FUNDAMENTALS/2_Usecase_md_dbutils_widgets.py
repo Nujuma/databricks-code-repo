@@ -53,7 +53,14 @@
 
 # COMMAND ----------
 
-
+base_path = "/Volumes/workspace/default/volumewd36"
+#Create raw_path, processed_path and archive_path as given below...
+raw_path = f"{base_path}/raw"
+print(raw_path)
+processed_path = f"{base_path}/processed"
+print(processed_path)
+archive_path = f"{base_path}/archive"
+print(archive_path)
 
 # COMMAND ----------
 
@@ -62,6 +69,11 @@
 
 # COMMAND ----------
 
+
+dbutils.fs.mkdirs(raw_path)
+dbutils.fs.mkdirs(processed_path)
+dbutils.fs.mkdirs(archive_path)
+print(f" Directoy has been created sucessfully ......{raw_path},{processed_path},{archive_path}")
 
 
 # COMMAND ----------
@@ -77,6 +89,17 @@
 
 # COMMAND ----------
 
+sample_data = """patient_id,patient_name,age,gender 1,John Doe,68,M 2,Jane Smith,54,F """
+base_path = "/Volumes/workspace/default/volumewd36"
+#Create raw_path, processed_path and archive_path as given below...
+raw_path = f"{base_path}/raw"
+print(raw_path)
+dbutils.fs.put(f"{raw_path}/sample_data.txt", sample_data ,overwrite=True)
+print(f" File has been created sucessfully ......{raw_path}/sample_data.txt")
+
+
+# COMMAND ----------
+
 
 
 # COMMAND ----------
@@ -88,7 +111,7 @@
 
 # COMMAND ----------
 
-
+dbutils.fs.ls(raw_path)
 
 # COMMAND ----------
 
@@ -97,7 +120,9 @@
 
 # COMMAND ----------
 
-
+dbutils.fs.cp(raw_path, processed_path, True)
+dbutils.fs.ls(processed_path)
+print(" File has been copied sucessfully")
 
 # COMMAND ----------
 
@@ -110,7 +135,10 @@
 
 # COMMAND ----------
 
-
+dbutils.widgets.dropdown("environment","dev",["dev","test","prod"])
+dbutils.widgets.text("Owner Name","Nujuma")
+print(dbutils.widgets.get("environment"))
+print(dbutils.widgets.get("Owner Name"))
 
 # COMMAND ----------
 
@@ -119,7 +147,9 @@
 
 # COMMAND ----------
 
-
+print (f"environment : {dbutils.widgets.get('environment')}")
+print (f"Owner Name : {dbutils.widgets.get('Owner Name')}")  
+       
 
 # COMMAND ----------
 
@@ -128,7 +158,9 @@
 
 # COMMAND ----------
 
-
+dbutils.fs.mv(processed_path,archive_path,True)
+dbutils.fs.ls(archive_path)
+print(" File has been moved sucessfully")   
 
 # COMMAND ----------
 
@@ -138,7 +170,13 @@
 
 # COMMAND ----------
 
+dbutils.notebook.run ("/Workspace/Users/nujumasyed@gmail.com/databricks-code-repo/databricks_workouts_2025/1_USECASES_NB_FUNDAMENTALS/4_child_nb_dataload",100)
 
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
 
 # COMMAND ----------
 
@@ -150,4 +188,4 @@
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit ("Pipeline Completed sucessfully")

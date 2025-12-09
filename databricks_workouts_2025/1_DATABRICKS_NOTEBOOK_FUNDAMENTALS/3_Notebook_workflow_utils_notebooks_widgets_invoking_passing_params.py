@@ -75,6 +75,9 @@ dbutils.widgets.help()
 
 print("can you create a textbox widget")
 dbutils.widgets.text("tablename","cities","enter the tablename to query")
+print(f"the user entered tablename is {dbutils.widgets.get('tablename')} ")
+display(spark.sql(f"select * from default.{dbutils.widgets.get('tablename')} limit 10"))
+
 
 # COMMAND ----------
 
@@ -112,6 +115,8 @@ dbutils.widgets.combobox("combobox","we47",["wd32","we43","we45","we47"],"Team n
 # COMMAND ----------
 
 dbutils.widgets.multiselect("multiselect","wd36",["wd32","we43","we45","wd36"],"Team names multiselect")
+mutti_select_value=dbutils.widgets.get("multiselect")
+print(  mutti_select_value)
 
 # COMMAND ----------
 
@@ -128,7 +133,9 @@ print(dict_all_widgets)
 
 # COMMAND ----------
 
-child_return_value=dbutils.notebook.run("/Workspace/Users/infoblisstech@gmail.com/databricks-code-repo/databricks_workouts_2025/1_DATABRICKS_NOTEBOOK_FUNDAMENTALS/4_child_notebook", 180,{"table_name":"cities1"})
+child_return_value=dbutils.notebook.run("/Workspace/Users/nujumasyed@gmail.com/databricks-code-repo/databricks_workouts_2025/1_DATABRICKS_NOTEBOOK_FUNDAMENTALS/4_child_notebook_dataload", 180,{"table_name":"cities"})
+
+
 
 # COMMAND ----------
 
