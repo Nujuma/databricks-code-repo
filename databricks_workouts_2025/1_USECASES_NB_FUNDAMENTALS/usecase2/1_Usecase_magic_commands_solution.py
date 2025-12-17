@@ -1,15 +1,14 @@
 # Databricks notebook source
 # MAGIC %md
 # MAGIC
-# MAGIC # **Databricks Magic Commands *
+# MAGIC #**Inceptez Technologies team meet up *
 # MAGIC
 # MAGIC ## *Task Overview*
 # MAGIC This notebook demonstrates how to document your work using Markdown in Databricks.  
 # MAGIC You will learn to use headings, bold, italics, colored text, and images.
 # MAGIC
 # MAGIC ---
-# MAGIC
-# MAGIC ### **Author**
+# MAGIC ## **created by **
 # MAGIC <span style="color:teal"><b>Nujuma</b></span>
 # MAGIC
 # MAGIC ---
@@ -30,9 +29,16 @@ dbutils.fs.put ("/Volumes/workspace/default/usage_metrics/mobile_os_usage.csv" ,
 
 # COMMAND ----------
 
-# MAGIC  %run  /Workspace/Users/nujumasyed@gmail.com/databricks-code-repo/databricks_workouts_2025/1_DATABRICKS_NOTEBOOK_FUNDAMENTALS/4_child_nb_dataload 
+# MAGIC %run
+# MAGIC "/Workspace/Users/nujumasyed@gmail.com/databricks-code-repo/databricks_workouts_2025/1_USECASES_NB_FUNDAMENTALS/4_child_nb_dataload"
 # MAGIC
 # MAGIC
+
+# COMMAND ----------
+
+display(dbutils.fs.ls ("/Volumes/workspace/default/usage_metrics"))
+print(dbutils.fs.head ("/Volumes/workspace/default/usage_metrics/mobile_os_usage.csv"))
+
 
 # COMMAND ----------
 
@@ -56,24 +62,18 @@ display(df1)
 
 # MAGIC %sql
 # MAGIC
+# MAGIC
 # MAGIC DROP TABLE IF EXISTS default.mobile_os_usage
 
 # COMMAND ----------
 
-#Task7: Write the above dataframe df1 data into a databricks table called 'default.mobile_os_usage' using pyspark magic command %python
-# Rename columns to remove spaces and invalid characters
-df1=spark.read.csv("/Volumes/workspace/default/usage_metrics/mobile_os_usage.csv",header=True,inferSchema=True)
+df1=spark.read.csv("/Volumes/workspace/default/usage_metrics/mobile_os_usage_1.csv",header=False ,inferSchema=True)
 display(df1)
-df1_clean = df1.withColumnRenamed(
-    "Mobile Operating System", "mobile_operating_system"
-).withColumnRenamed(
-    "Percent of Usage", "percent_of_usage"
-)
-
-# Write to Delta table
-df1_clean.write.mode("overwrite").saveAsTable("default.mobile_os_usage")
-
-
+df2=df1.toDF("Date","Mobile_operating_system","Percent_of_usage")
+display(df2)
+table_name="workspace.default.mobile_os_usage"
+df2.write.mode("overwrite").saveAsTable(table_name)
+print("Data has been written to the table ")
 
 # COMMAND ----------
 
